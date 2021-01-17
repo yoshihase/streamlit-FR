@@ -58,6 +58,7 @@ if uploaded_file is not None:
         font = ImageFont.truetype(font_name, font_size)
         draw.text((draw_x, draw_y), text, font=font, fill=(255,0,0,128))
 
+        
      
  
     st.image(img1,caption='アップロードされた写真',use_column_width=True)
