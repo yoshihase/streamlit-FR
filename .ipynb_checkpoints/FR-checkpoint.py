@@ -38,26 +38,22 @@ if uploaded_file is not None:
     res =requests.post(face_api_url,params=params,
                        headers=headers,data=binary_img) 
     
+    draw =ImageDraw.Draw(img1) 
+    font_size = 24
+    font_name = "C:\Windows\Fonts\meiryo.ttc"
+    src = r"pillow_test_src.png"
+    dest= r"pillow_test_dest.png"
+    
     results =res.json()
     for result in results:
-        rect =result['faceRectangle']
-        age = result['faceAttributes']['age']
-        gender = result['faceAttributes']['gender']
-    
-        draw =ImageDraw.Draw(img1)    
+        rect =result['faceRectangle']  
         draw.rectangle([(rect['left'],rect['top']),(rect['left']+rect['width'],rect['top']+rect['height'])],fill=None,outline='green',width=5)
+        draw_x = rect['left']-30
+        draw_y = rect['top']-30
 
-        font_size = 24
-        font_name = "C:\Windows\Fonts\meiryo.ttc"
-        src = r"pillow_test_src.png"
-        dest= r"pillow_test_dest.png"
-        draw_x = 140
-        draw_y = 120
-        text = age
-        print(age,gender)
+        text = result['faceAttributes']['gender']+'/'+str(result['faceAttributes']['age'])
+#         print(age,gender)
         font = ImageFont.truetype(font_name, font_size)
-        draw.text((draw_x, draw_y), text, font=font, fill=(255,0,0,128))
-
-     
- 
-    st.image(img1,caption='アップロードされた写真',use_column_width=True)
+        draw.text((draw_x, draw_y), text,font=font, fill='red')
+      
+    st.image(img1,caption="認識した写真",use_column_width=True)
