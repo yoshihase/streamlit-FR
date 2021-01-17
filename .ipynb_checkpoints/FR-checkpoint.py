@@ -41,8 +41,8 @@ if uploaded_file is not None:
     results =res.json()
     for result in results:
         rect =result['faceRectangle']
-#     age =result['age']
-  
+        age = result['faceAttributes']['age']
+        gender = result['faceAttributes']['gender']
     
         draw =ImageDraw.Draw(img1)    
         draw.rectangle([(rect['left'],rect['top']),(rect['left']+rect['width'],rect['top']+rect['height'])],fill=None,outline='green',width=5)
@@ -53,10 +53,11 @@ if uploaded_file is not None:
         dest= r"pillow_test_dest.png"
         draw_x = 140
         draw_y = 120
-    #     text = draw.age
+        text = age
+        print(age,gender)
         font = ImageFont.truetype(font_name, font_size)
+        draw.text((draw_x, draw_y), text, font=font, fill=(255,0,0,128))
 
-        res =requests.post(face_api_url,params=params,
-                           headers=headers,data=binary_img)    
+     
  
     st.image(img1,caption='アップロードされた写真',use_column_width=True)
